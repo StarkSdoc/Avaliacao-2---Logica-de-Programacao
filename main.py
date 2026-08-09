@@ -1,5 +1,10 @@
+import definicoes as d
+d.limpa()
+d.cabecalho()
+
 biblioteca=[] #Lista que vai armazenar os livros cadastrados
 
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE CADASTRO DE LIVROS:
 def cadastrar_livro():
     print("\n~~ CADASTRO DE LIVROS: ~~")
@@ -10,16 +15,33 @@ def cadastrar_livro():
 
     #Dicionário que representa as informações do livro
     novo_livro = {
-        "título": titulo,
+        "titulo": titulo,
         "autor": autor,
-        "ano de publicação": ano_de_publicacao,
-        "código": codigo,
+        "ano_de_publicacao": ano_de_publicacao,
+        "codigo": codigo,
         "status": "Disponível"} #Status inicia como disponível, pois quando um novo livro é cadastrado ele
                                 #estará automaticamente disponível
     
     biblioteca.append(novo_livro) #Adiciona o dicionário (informações do livro) na lista principal "biblioteca"
     print("Livro cadastrado com sucesso!")
 
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
+#FUNÇÃO DE LISTAR LIVROS:
+def listar_livros():
+    if len(biblioteca)==0:#"len()" foi usado para perguntar ao Python "quantos itens tem dentro da lista?"
+        print("Não há nenhum livro cadastrado!")
+    else:
+        print("\n~~ Os livros disponíveis são: ~~\n")
+        for livro in biblioteca:#Vai passar por cada livro na biblioteca e buscar as informações solicitadas
+            print(f"Título: {livro['titulo']}")
+            print(f"Autor: {livro['autor']}")
+            print(f"Ano de publicação: {livro['ano_de_publicacao']}")
+            print(f"Código: {livro['codigo']}")
+            print(f"Status: {livro['status']}")
+            print("-" * 30)#Vai printar 30 tracinhos para formar uma linha que separe um livro do outro
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
 #MENU DE OPÇÕES:
 #Apresenta o menu principal com as opções possíveis
 while True:#While para manter o menu ativo até que o usuário decida sair
@@ -42,7 +64,7 @@ while True:#While para manter o menu ativo até que o usuário decida sair
     elif opcao=="3":
         print("Registrar devolução")
     elif opcao=="4":
-        print("Listar todos os livros")
+        listar_livros()
     elif opcao=="5":
         print("Buscar um livro")
     elif opcao=="6":
