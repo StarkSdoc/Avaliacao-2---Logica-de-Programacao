@@ -1,7 +1,27 @@
-#MENU DE OPÇÕES:
-#Apresenta o menu principal com as opções possíveis
 biblioteca=[] #Lista que vai armazenar os livros cadastrados
 
+#FUNÇÃO DE CADASTRO DE LIVROS:
+def cadastrar_livro():
+    print("\n~~ CADASTRO DE LIVROS: ~~")
+    titulo= input("Informe o título do livro: ")
+    autor= input("Informe o autor do livro: ")
+    ano_de_publicacao= input("Informe o ano de publicação: ")
+    codigo= input("Informe o código/ISBN do livro: ")
+
+    #Dicionário que representa as informações do livro
+    novo_livro = {
+        "título": titulo,
+        "autor": autor,
+        "ano de publicação": ano_de_publicacao,
+        "código": codigo,
+        "status": "Disponível"} #Status inicia como disponível, pois quando um novo livro é cadastrado ele
+                                #estará automaticamente disponível
+    
+    biblioteca.append(novo_livro) #Adiciona o dicionário (informações do livro) na lista principal "biblioteca"
+    print("Livro cadastrado com sucesso!")
+
+#MENU DE OPÇÕES:
+#Apresenta o menu principal com as opções possíveis
 while True:#While para manter o menu ativo até que o usuário decida sair
     print("\n~~ SISTEMA DE GERENCIAMENTO DE BIBLIOTECA: ~~")
     print("\nDigite:")
@@ -16,7 +36,7 @@ while True:#While para manter o menu ativo até que o usuário decida sair
     opcao= input("\nDigite sua opção: ")
 
     if opcao=="1":
-        print("Cadastrar livros")
+        cadastrar_livro()
     elif opcao=="2":
         print("Registrar empréstimos")
     elif opcao=="3":
@@ -31,5 +51,4 @@ while True:#While para manter o menu ativo até que o usuário decida sair
         print("Deixando o sistema...")
         break
     else:
-        print("Opção inválida, tente novamente.")
-    
+        print("Opção inválida, tente novamente.")  
