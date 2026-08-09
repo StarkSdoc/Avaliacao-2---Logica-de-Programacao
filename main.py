@@ -28,6 +28,7 @@ def cadastrar_livro():
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE LISTAR LIVROS:
 def listar_livros():
+    print("\n~~ LISTAGEM DE LIVROS: ~~")
     if len(biblioteca)==0:#"len()" foi usado para perguntar ao Python "quantos itens tem dentro da lista?"
         print("Não há nenhum livro cadastrado!")
     else:
@@ -42,10 +43,32 @@ def listar_livros():
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
+#FUNÇÃO DE BUSCAR LIVROS:
+def buscar_livro():
+    print("\n~~ BUSCA DE LIVROS: ~~")
+    print("Bem vindo a biblioteca!")
+    termo=input("Informe o livro ou autor que deseja encontrar: ")#Guardou a resposta do usuário em "termo" para usar como a chave da pesquisa 
+    encontrou = False #Variável para saber se achamos o livro ou não
+    #Pede para o usuário informar o título de uma obra, ou um autor, para que o programa procure entre todos os livros cadastrados na biblioteca
+    for livro in biblioteca:
+        if termo.lower() in livro['titulo'].lower() or termo.lower() in livro["autor"].lower():
+        #".lower" foi usado para que o programa não bug caso o livro tenha sido registrado com letra maiúscula e o usuário tenha digitado com letra minúscula e vice-versa
+        #Assim, o ".lower" vai deixar tudo em letra minúscula e programa vai rodar normalmente
+            print(f"\nLivro encontrado: {livro['titulo']} - Autor: {livro['autor']}")
+            print(f"Status: {livro['status']}")
+            print("-" * 30)
+            encontrou = True #A variável passa a ser verdadeira pois o programa rodou por todos os livros e encontrou aquele que estava sendo procurado
+
+    if encontrou == False:
+            print("Nenhum livro ou autor encontrado. Tente novamente")
+        #Isso só aparece caso o programa não encontre o livro/autor. A variável "encontrou" vai continuar como False e então a mensagem deste print deverá aparecer indicando que a busca fracassou.
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
 #MENU DE OPÇÕES:
 #Apresenta o menu principal com as opções possíveis
 while True:#While para manter o menu ativo até que o usuário decida sair
-    print("\n~~ SISTEMA DE GERENCIAMENTO DE BIBLIOTECA: ~~")
+    print("\n~~ SISTEMA DE GERENCIAMENTO DE BIBLIOTECA - MENU DE OPÇÕES: ~~")
     print("\nDigite:")
     print("1 para: Cadastrar livros")
     print("2 para: Registrar empréstimos")
@@ -66,7 +89,7 @@ while True:#While para manter o menu ativo até que o usuário decida sair
     elif opcao=="4":
         listar_livros()
     elif opcao=="5":
-        print("Buscar um livro")
+        buscar_livro()
     elif opcao=="6":
         print("Ordenar a listagem de livros")
     elif opcao=="7":
