@@ -65,6 +65,25 @@ def buscar_livro():
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
+#FUNÇÃO DE REGISTRO DE EMPRÉSTIMOS:
+def registro_de_emprestimo():
+    print("\n~~ REGISTRO DE EMPRÉSTIMOS: ~~")
+    termo=input("Digite o código ou nome do livro que deseja pegar: ")
+    encontrou=False
+    for livro in biblioteca:
+        if termo.lower() in livro['titulo'].lower() or termo.lower() in livro['codigo'].lower():
+            encontrou = True
+            if livro['status'] == "Disponível":
+                livro['status']="Emprestado"
+                print(f"\n O livro '{livro['titulo']}' foi emprestado a você. Aproveite a leitura!")
+            else:
+                print(f"Sentimos muito, o livro {livro['titulo']} já foi emprestado a alguém! Aguarde a devolução.")
+            break
+    if encontrou==False:
+        print("Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente.")
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
 #MENU DE OPÇÕES:
 #Apresenta o menu principal com as opções possíveis
 while True:#While para manter o menu ativo até que o usuário decida sair
@@ -83,7 +102,7 @@ while True:#While para manter o menu ativo até que o usuário decida sair
     if opcao=="1":
         cadastrar_livro()
     elif opcao=="2":
-        print("Registrar empréstimos")
+        registro_de_emprestimo()
     elif opcao=="3":
         print("Registrar devolução")
     elif opcao=="4":
