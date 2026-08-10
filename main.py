@@ -68,19 +68,47 @@ def buscar_livro():
 #FUNÇÃO DE REGISTRO DE EMPRÉSTIMOS:
 def registro_de_emprestimo():
     print("\n~~ REGISTRO DE EMPRÉSTIMOS: ~~")
+    #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
     termo=input("Digite o código ou nome do livro que deseja pegar: ")
     encontrou=False
     for livro in biblioteca:
         if termo.lower() in livro['titulo'].lower() or termo.lower() in livro['codigo'].lower():
-            encontrou = True
+            encontrou = True #Caso o livro seja encontrado entre os já cadastrados, o programa abaixo irá rodar
             if livro['status'] == "Disponível":
                 livro['status']="Emprestado"
+            #Caso o status atual do livro selecionado para empréstimo seja "Disponível", o programa mudará para "Emprestado"
                 print(f"\n O livro '{livro['titulo']}' foi emprestado a você. Aproveite a leitura!")
             else:
                 print(f"Sentimos muito, o livro {livro['titulo']} já foi emprestado a alguém! Aguarde a devolução.")
-            break
+            #Se ao selecionar o livro o status dele já for "Emprestado" o programa irá avisar ao usuário que o empréstimo não é possível
+            break #O programa para
     if encontrou==False:
         print("Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente.")
+    #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
+#FUNÇÃO DE DEVOLUÇÃO:
+#Segue a mesma lógica do registro de empréstimo
+def registro_de_devolucao():
+    print("\n~~ REGISTRO DE DEVOLUÇÃO: ~~")
+    #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
+    termo=input("Digite o código ou nome do livro que deseja devolver: ")
+    encontrou=False
+    for livro in biblioteca:
+        if termo.lower() in livro['titulo'].lower() or termo.lower() in livro['codigo'].lower():
+            encontrou = True #Caso o livro seja encontrado entre os já cadastrados, o programa abaixo irá rodar
+            if livro['status'] == "Emprestado":
+                livro['status']="Disponível"
+            #Caso o status atual do livro selecionado para devolução seja "Emprestado", o programa mudará para "Disponível"
+                print(f"\n O livro '{livro['titulo']}' foi devolvido às prateleiras. Obrigada(o)!")
+            else:
+                print(f"O livro {livro['titulo']} já está disponível. Não é possível fazer a devolução.")
+            #Se ao selecionar o livro o status dele já for "Disponível" o programa irá avisar ao usuário que a devolução não é possível
+            break #O programa para
+    if encontrou==False:
+        print("Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente.")
+    #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -104,7 +132,7 @@ while True:#While para manter o menu ativo até que o usuário decida sair
     elif opcao=="2":
         registro_de_emprestimo()
     elif opcao=="3":
-        print("Registrar devolução")
+        registro_de_devolucao()
     elif opcao=="4":
         listar_livros()
     elif opcao=="5":
