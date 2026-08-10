@@ -25,6 +25,7 @@ def cadastrar_livro():
     biblioteca.append(novo_livro) #Adiciona o dicionário (informações do livro) na lista principal "biblioteca"
     print("Livro cadastrado com sucesso!")
 
+
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE LISTAR LIVROS:
 def listar_livros():
@@ -112,6 +113,22 @@ def registro_de_devolucao():
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
+#FUNÇÃO DE ORDENAR LIVROS (por título):
+def identificar_titulo(livro): #Função que identifica o título do livro e entrega para o ".sort"
+    return livro['titulo'].lower()#.lower para que as letra maiúsculas e minúsculas não se embaralhem e o programa trave
+
+def ordenar_livros():
+    print("\n~~ ORDENAGEM DE LIVROS: ~~")
+    if len(biblioteca)==0: #Verifica se há livros na biblioteca, se não houver nenhum livro o programa irá enviar a mensagem abaixo
+        print("Não há livros a serem ordenados. Digite 1 e cadastre novos livros.")
+    else:
+        biblioteca.sort(key=identificar_titulo)
+        #O .sort vai servir para ordenar os títulos em ordem alfabética. Com ajuda da def acima
+        #ele vai "pegar" os livros, identificar o título e por em ordem alfabética.
+        print("\nA biblioteca foi organizada por títulos em ordem alfabética. Digite 4 e verifique a nova ordem.")
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
 #MENU DE OPÇÕES:
 #Apresenta o menu principal com as opções possíveis
 while True:#While para manter o menu ativo até que o usuário decida sair
@@ -138,7 +155,7 @@ while True:#While para manter o menu ativo até que o usuário decida sair
     elif opcao=="5":
         buscar_livro()
     elif opcao=="6":
-        print("Ordenar a listagem de livros")
+        ordenar_livros()
     elif opcao=="7":
         print("Deixando o sistema...")
         break
