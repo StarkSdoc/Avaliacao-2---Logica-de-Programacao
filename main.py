@@ -2,23 +2,41 @@ import definicoes as d
 d.limpa()
 d.cabecalho()
 
-import salvador as s #Chama/ avisa o python que nós vamos usar o arquivo de texto para guardar os nomes dos livros cadastrados
+import salvador as s #Chama as defs do arquivo "salvador" para exportar as atualizações para o arquivo csv
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE CADASTRO DE LIVROS:
 def cadastrar_livro():
-    print("\n~~ CADASTRO DE LIVROS: ~~")
+    #Mensagem de cabeçalho e boas vindas
+    print("\n+-+-+-+-+-+- CADASTRO DE LIVROS: -+-+-+-+-+-+")
+    print("\n Bem vindo(a) a função de cadastro!")
+    #Pede que usuário digite o título e autor do livro e salva essas informações nas variáveis "titulo" e "autor"
     titulo= input("Informe o título do livro: ")
     autor= input("Informe o autor do livro: ")
-    ano_de_publicacao= input("Informe o ano de publicação: ")
-    codigo= input("Informe o código/ISBN do livro: ")
 
-    #Dicionário que representa as informações do livro
-    novo_livro = {
-        "titulo": titulo,
-        "autor": autor,
-        "ano_de_publicacao": ano_de_publicacao,
-        "codigo": codigo,
+    ano_de_publicacao= input("Informe o ano de publicação: ") #Solicita o ano de publicação da obra
+    if ano_de_publicacao.isdigit()==False:#.isdigit é usado para analisar se o ano foi escrito somente com números. Se tiver sido
+                                            #escrito com letras, o programa deverá printar uma mensagem de erro e retornar para o menu de opções
+        print("\n ⨻ Esta data está incorreta. Tente novamente. ⨻")
+        return
+
+    if int(ano_de_publicacao)>2026: #Se a data for depois do ano atual (2026) o programa irá exibir uma mensagem de invalidez e irá retornar para o menu principal
+        print("\n ⨻ Esta data está incorreta. Tente novamente. ⨻")
+        return
+    
+    codigo= input("Informe o código/ISBN do livro: ") #Solicita o código ISBN 
+    if len(codigo)!=13: #Se o código for diferente do que 13 digitos, ou seja, com mais ou menos digitos, o programa vai enviar uma mensagem de invalidez e irá retornar para o menu principal
+        print("\n ⨻ Este código não é tolerado. Tente novamente. ⨻")
+        return
+    if codigo.isdigit()==False:
+        print("\n ⨻ Este código está incorreto. Tente novamente. ⨻") #.isdigit é usado para analisar se o ano foi escrito somente com números. Se tiver sido
+        return                                                        #escrito com letras, o programa deverá printar uma mensagem de erro e retornar para o menu de opções
+
+    novo_livro = {#Dicionário que representa as informações do livro
+        "titulo": titulo ,
+        "autor": autor ,
+        "ano_de_publicacao": ano_de_publicacao ,
+        "codigo":codigo ,
         "status": "Disponivel"} #Status inicia como disponível, pois quando um novo livro é cadastrado ele
                                 #estará automaticamente disponível
     
@@ -29,9 +47,10 @@ def cadastrar_livro():
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE LISTAR LIVROS:
 def listar_livros():
-    print("\n~~ LISTAGEM DE LIVROS: ~~")
+    biblioteca = s.listar_livros()
+    print("\n+-+-+-+-+-+- LISTAGEM DE LIVROS: -+-+-+-+-+-+")
     if len(biblioteca)==0:#"len()" foi usado para perguntar ao Python "quantos itens tem dentro da lista?"
-        print("Não há nenhum livro cadastrado!")
+        print("⨻ Não há nenhum livro cadastrado! ⨻")
     else:
         print("\n~~ Os livros disponíveis são: ~~\n")
         for livro in biblioteca:#Vai passar por cada livro na biblioteca e buscar as informações solicitadas
@@ -47,7 +66,7 @@ def listar_livros():
 #FUNÇÃO DE BUSCAR LIVROS:
 def buscar_livro():
     biblioteca= s.listar_livros()
-    print("\n~~ BUSCA DE LIVROS: ~~")
+    print("\n+-+-+-+-+-+- BUSCA DE LIVROS: -+-+-+-+-+-+")
     termo=input("Informe o livro ou autor que deseja encontrar: ")#Guardou a resposta do usuário em "termo" para usar como a chave da pesquisa 
     encontrou = False #Variável para saber se achamos o livro ou não
     #Pede para o usuário informar o título de uma obra, ou um autor, para que o programa procure entre todos os livros cadastrados na biblioteca
@@ -61,7 +80,7 @@ def buscar_livro():
             encontrou = True #A variável passa a ser verdadeira pois o programa rodou por todos os livros e encontrou aquele que estava sendo procurado
 
     if encontrou == False:
-            print("Nenhum livro ou autor encontrado. Tente novamente")
+            print("⨻ Nenhum livro ou autor encontrado. Tente novamente. ⨻")
         #Isso só aparece caso o programa não encontre o livro/autor. A variável "encontrou" vai continuar como False e então a mensagem deste print deverá aparecer indicando que a busca fracassou.
 
 
@@ -69,14 +88,14 @@ def buscar_livro():
 #FUNÇÃO DE REGISTRO DE EMPRÉSTIMOS:
 def registro_de_emprestimo():
     biblioteca= s.listar_livros()
-    print("\n~~ REGISTRO DE EMPRÉSTIMOS: ~~")
+    print("\n+-+-+-+-+-+- REGISTRO DE EMPRÉSTIMOS: -+-+-+-+-+-+")
     #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
     termo=input("Digite o código ou nome do livro que deseja pegar: ")
     encontrou=False
     for livro in biblioteca:
         if termo.lower() in livro['titulo'].lower() or termo.lower() in livro['codigo'].lower():
             encontrou = True #Caso o livro seja encontrado entre os já cadastrados, o programa abaixo irá rodar
-            if livro['status'] == "Disponível":
+            if livro['status'] == "Disponivel":
                 livro['status']="Emprestado"
             #Caso o status atual do livro selecionado para empréstimo seja "Disponível", o programa mudará para "Emprestado"
                 print(f"\n O livro '{livro['titulo']}' foi emprestado a você. Aproveite a leitura!")
@@ -85,7 +104,7 @@ def registro_de_emprestimo():
             #Se ao selecionar o livro o status dele já for "Emprestado" o programa irá avisar ao usuário que o empréstimo não é possível
             break #O programa para
     if encontrou==False:
-        print("Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente.")
+        print("⨻ Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente. ⨻")
     #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
     s.armazenar_biblioteca(biblioteca)
 
@@ -94,7 +113,7 @@ def registro_de_emprestimo():
 #Segue a mesma lógica do registro de empréstimo
 def registro_de_devolucao():
     biblioteca= s.listar_livros()
-    print("\n~~ REGISTRO DE DEVOLUÇÃO: ~~")
+    print("\n+-+-+-+-+-+- REGISTRO DE DEVOLUÇÃO: -+-+-+-+-+-+")
     #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
     termo=input("Digite o código ou nome do livro que deseja devolver: ")
     encontrou=False
@@ -110,7 +129,7 @@ def registro_de_devolucao():
             #Se ao selecionar o livro o status dele já for "Disponível" o programa irá avisar ao usuário que a devolução não é possível
             break #O programa para
     if encontrou==False:
-        print("Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente.")
+        print("⨻ Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente. ⨻")
     #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
     s.armazenar_biblioteca(biblioteca)
 
@@ -121,29 +140,49 @@ def identificar_titulo(livro): #Função que identifica o título do livro e ent
 
 def ordenar_livros():
     biblioteca= s.listar_livros()
-    print("\n~~ ORDENAGEM DE LIVROS: ~~")
+    print("\n+-+-+-+-+-+- ORDENAGEM DE LIVROS: -+-+-+-+-+-+")
     if len(biblioteca)==0: #Verifica se há livros na biblioteca, se não houver nenhum livro o programa irá enviar a mensagem abaixo
-        print("Não há livros a serem ordenados. Digite 1 e cadastre novos livros.")
+        print("⨻ Não há livros a serem ordenados. Digite 1 e cadastre novos livros. ⨻")
     else:
         biblioteca.sort(key=identificar_titulo)
         #O .sort vai servir para ordenar os títulos em ordem alfabética. Com ajuda da def acima
         #ele vai "pegar" os livros, identificar o título e por em ordem alfabética.
         print("\nA biblioteca foi organizada por títulos em ordem alfabética. Digite 4 e verifique a nova ordem.")
+    s.armazenar_biblioteca(biblioteca)
 
-
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
+#FUNÇÃO DE REMOVER LIVROS:
+def remover_livro():
+    biblioteca= s.listar_livros()
+    print("\n+-+-+-+-+-+- REMOÇÃO DE LIVROS: -+-+-+-+-+-+")
+    #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
+    termo=input("Digite o código ou nome do livro que deseja remover: ")
+    encontrou=False
+    for livro in biblioteca:
+        if termo.lower() in livro['titulo'].lower() or termo.lower() in livro['codigo'].lower():
+            encontrou = True #Caso o livro seja encontrado entre os já cadastrados, o programa abaixo irá rodar
+            biblioteca.remove(livro)
+            s.armazenar_biblioteca(biblioteca)
+            print("O livro selecionado foi removido com sucesso! Digite 4 no menu principal e veja a nova lista.")
+            break
+    if encontrou==False:
+        print("⨻ Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente. ⨻")
+            #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #MENU DE OPÇÕES:
 #Apresenta o menu principal com as opções possíveis
 while True:#While para manter o menu ativo até que o usuário decida sair
-    print("\n~~ SISTEMA DE GERENCIAMENTO DE BIBLIOTECA - MENU DE OPÇÕES: ~~")
-    print("\nDigite:")
-    print("1 para: Cadastrar livros")
-    print("2 para: Registrar empréstimos")
-    print("3 para: Registrar devolução")
-    print("4 para: Listar todos os livros")
-    print("5 para: Buscar um livro")
-    print("6 para: Ordenar a listagem de livros")
-    print("7 para: Sair do sistema")
+    print("\n--------------------------------------------------SISTEMA DE GERENCIAMENTO DE BIBLIOTECA--------------------------------------------------")
+    print("Bem vindo(a) ao sistema de gerenciamento da biblioteca!")
+    print("\nPara continuar no programa, digite a opção que mais lhe agrada:")
+    print("-- 1 para: Cadastrar livros")
+    print("-- 2 para: Registrar empréstimos")
+    print("-- 3 para: Registrar devolução")
+    print("-- 4 para: Listar todos os livros")
+    print("-- 5 para: Buscar um livro")
+    print("-- 6 para: Ordenar a listagem de livros")
+    print("-- 7 para: Remover livro cadastrado")
+    print("-- 8 para: Sair do sistema")
 
     opcao= input("\nDigite sua opção: ")
 
@@ -160,7 +199,9 @@ while True:#While para manter o menu ativo até que o usuário decida sair
     elif opcao=="6":
         ordenar_livros()
     elif opcao=="7":
+        remover_livro()
+    elif opcao=="8":
         print("Deixando o sistema...")
         break
     else:
-        print("Opção inválida, tente novamente.")  
+        print("⨻ Opção inválida, tente novamente. ⨻")  
