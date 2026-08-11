@@ -2,7 +2,7 @@ import definicoes as d
 d.limpa()
 d.cabecalho()
 
-biblioteca=[] #Lista que vai armazenar os livros cadastrados
+import salvador as s #Chama/ avisa o python que nós vamos usar o arquivo de texto para guardar os nomes dos livros cadastrados
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE CADASTRO DE LIVROS:
@@ -19,10 +19,10 @@ def cadastrar_livro():
         "autor": autor,
         "ano_de_publicacao": ano_de_publicacao,
         "codigo": codigo,
-        "status": "Disponível"} #Status inicia como disponível, pois quando um novo livro é cadastrado ele
+        "status": "Disponivel"} #Status inicia como disponível, pois quando um novo livro é cadastrado ele
                                 #estará automaticamente disponível
     
-    biblioteca.append(novo_livro) #Adiciona o dicionário (informações do livro) na lista principal "biblioteca"
+    s.adicionar_livro(novo_livro) #Adiciona o dicionário (informações do livro) na lista principal "biblioteca"
     print("Livro cadastrado com sucesso!")
 
 
@@ -46,8 +46,8 @@ def listar_livros():
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE BUSCAR LIVROS:
 def buscar_livro():
+    biblioteca= s.listar_livros()
     print("\n~~ BUSCA DE LIVROS: ~~")
-    print("Bem vindo a biblioteca!")
     termo=input("Informe o livro ou autor que deseja encontrar: ")#Guardou a resposta do usuário em "termo" para usar como a chave da pesquisa 
     encontrou = False #Variável para saber se achamos o livro ou não
     #Pede para o usuário informar o título de uma obra, ou um autor, para que o programa procure entre todos os livros cadastrados na biblioteca
@@ -68,6 +68,7 @@ def buscar_livro():
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE REGISTRO DE EMPRÉSTIMOS:
 def registro_de_emprestimo():
+    biblioteca= s.listar_livros()
     print("\n~~ REGISTRO DE EMPRÉSTIMOS: ~~")
     #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
     termo=input("Digite o código ou nome do livro que deseja pegar: ")
@@ -86,12 +87,13 @@ def registro_de_emprestimo():
     if encontrou==False:
         print("Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente.")
     #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
-
+    s.armazenar_biblioteca(biblioteca)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE DEVOLUÇÃO:
 #Segue a mesma lógica do registro de empréstimo
 def registro_de_devolucao():
+    biblioteca= s.listar_livros()
     print("\n~~ REGISTRO DE DEVOLUÇÃO: ~~")
     #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
     termo=input("Digite o código ou nome do livro que deseja devolver: ")
@@ -110,7 +112,7 @@ def registro_de_devolucao():
     if encontrou==False:
         print("Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente.")
     #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
-
+    s.armazenar_biblioteca(biblioteca)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE ORDENAR LIVROS (por título):
@@ -118,6 +120,7 @@ def identificar_titulo(livro): #Função que identifica o título do livro e ent
     return livro['titulo'].lower()#.lower para que as letra maiúsculas e minúsculas não se embaralhem e o programa trave
 
 def ordenar_livros():
+    biblioteca= s.listar_livros()
     print("\n~~ ORDENAGEM DE LIVROS: ~~")
     if len(biblioteca)==0: #Verifica se há livros na biblioteca, se não houver nenhum livro o programa irá enviar a mensagem abaixo
         print("Não há livros a serem ordenados. Digite 1 e cadastre novos livros.")
