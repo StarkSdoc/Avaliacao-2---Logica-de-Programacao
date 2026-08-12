@@ -26,7 +26,7 @@ def validar_codigo(codigo):
     if codigo.isdigit() == False:#.isdigit é usado para analisar se o codigo foi escrito somente com números. Se tiver sido
         return False             #escrito com letras, o programa deverá printar uma mensagem de erro e retornar para o menu de opções
 
-    return True #Se o loop acima verificar que não há números em "código", o programa vai retornar "True"
+    return True #Se o loop acima verificar que não há letras em "codigo", o programa vai retornar "True"
 
 
 def cadastrar_livro():
@@ -196,7 +196,7 @@ def identificar_titulo(livro): #Função que identifica o título do livro e ent
 def ordenar_livros():
     biblioteca= s.listar_livros()
     print("\n+-+-+-+-+-+- ORDENAGEM DE LIVROS: -+-+-+-+-+-+")
-    print("\nBem vindo(a) a função de ordenagem!")
+    print("\nBem vindo(a) a função de ordenagem")
     if len(biblioteca)==0: #Verifica se há livros na biblioteca, se não houver nenhum livro o programa irá enviar a mensagem abaixo
         print("⨻ Não há livros a serem ordenados. Digite 1 e cadastre novos livros. ⨻")
     else:
