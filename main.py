@@ -4,15 +4,52 @@ d.cabecalho()
 
 import salvador as s #Chama as defs do arquivo "salvador" para exportar as atualizações para o arquivo csv
 
+#Função para evitar que o usuário digite apenas "enter" sem por uma informação de verdade
+def validar_texto(texto): #Recebe o texto digitado pelo usuário
+    if len(texto.strip()) == 0: #Remove espaços e verifica se ficou vazio
+        return False #Retorna False se o usuário só apertou "enter" ou digitou espaços
+    return True #Retorna True se o texto for válido
+
+
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE CADASTRO DE LIVROS:
+def validar_autor(autor): #def para verificar se existem números no nome do autor
+    for letra in autor:
+        if letra.isdigit(): #Se houver números no nome do autor, o programa vai retornar "False"
+            return False
+
+    return True #Se o loop acima verificar que não há números em "autor", o programa vai retornar "True"
+
+def validar_codigo(codigo):
+    if len(codigo) != 13:#Se o código for diferente do que 13 digitos, ou seja, com mais ou menos digitos, o programa vai enviar uma mensagem de invalidez e irá retornar para o menu principal
+        return False
+    if codigo.isdigit() == False:#.isdigit é usado para analisar se o codigo foi escrito somente com números. Se tiver sido
+        return False             #escrito com letras, o programa deverá printar uma mensagem de erro e retornar para o menu de opções
+
+    return True #Se o loop acima verificar que não há números em "código", o programa vai retornar "True"
+
+
 def cadastrar_livro():
     #Mensagem de cabeçalho e boas vindas
     print("\n+-+-+-+-+-+- CADASTRO DE LIVROS: -+-+-+-+-+-+")
-    print("\n Bem vindo(a) a função de cadastro!")
+    print("\nBem vindo(a) a função de cadastro!")
     #Pede que usuário digite o título e autor do livro e salva essas informações nas variáveis "titulo" e "autor"
     titulo= input("Informe o título do livro: ")
+
+    #Chamando a def de validar texto para garantir que a pessoa não deixe o espaço em branco
+    if validar_texto(titulo) == False:
+        print("\n ⨻ O título não pode ficar em branco. Tente novamente. ⨻")
+        return
+
     autor= input("Informe o autor do livro: ")
+    #Chamando a def de validar texto para garantir que a pessoa não deixe o espaço em branco
+    if validar_texto(autor) == False:
+        print("\n ⨻ O nome do autor não pode ficar em branco. Tente novamente. ⨻")
+        return
+    #if para verificar se o nome do autor foi escrito corretamente (sem números)
+    if validar_autor(autor) == False:
+        print("\n⨻ O nome do autor foi escrito incorretamente. Tente novamente. ⨻")
+        return
 
     ano_de_publicacao= input("Informe o ano de publicação: ") #Solicita o ano de publicação da obra
     if ano_de_publicacao.isdigit()==False:#.isdigit é usado para analisar se o ano foi escrito somente com números. Se tiver sido
@@ -20,17 +57,14 @@ def cadastrar_livro():
         print("\n ⨻ Esta data está incorreta. Tente novamente. ⨻")
         return
 
-    if int(ano_de_publicacao)>2026: #Se a data for depois do ano atual (2026) o programa irá exibir uma mensagem de invalidez e irá retornar para o menu principal
+    if int(ano_de_publicacao)>2026 or int(ano_de_publicacao)<1000: #Se a data for depois do ano atual (2026) o programa irá exibir uma mensagem de invalidez e irá retornar para o menu principal
         print("\n ⨻ Esta data está incorreta. Tente novamente. ⨻")
         return
-    
-    codigo= input("Informe o código/ISBN do livro: ") #Solicita o código ISBN 
-    if len(codigo)!=13: #Se o código for diferente do que 13 digitos, ou seja, com mais ou menos digitos, o programa vai enviar uma mensagem de invalidez e irá retornar para o menu principal
+
+    codigo= input("Informe o código/ISBN do livro: ") #Solicita o código ISBN
+    if validar_codigo(codigo)==False:
         print("\n ⨻ Este código não é tolerado. Tente novamente. ⨻")
         return
-    if codigo.isdigit()==False:
-        print("\n ⨻ Este código está incorreto. Tente novamente. ⨻") #.isdigit é usado para analisar se o ano foi escrito somente com números. Se tiver sido
-        return                                                        #escrito com letras, o programa deverá printar uma mensagem de erro e retornar para o menu de opções
 
     novo_livro = {#Dicionário que representa as informações do livro
         "titulo": titulo ,
@@ -39,7 +73,7 @@ def cadastrar_livro():
         "codigo":codigo ,
         "status": "Disponivel"} #Status inicia como disponível, pois quando um novo livro é cadastrado ele
                                 #estará automaticamente disponível
-    
+
     s.adicionar_livro(novo_livro) #Adiciona o dicionário (informações do livro) na lista principal "biblioteca"
     print("Livro cadastrado com sucesso!")
 
@@ -49,10 +83,11 @@ def cadastrar_livro():
 def listar_livros():
     biblioteca = s.listar_livros()
     print("\n+-+-+-+-+-+- LISTAGEM DE LIVROS: -+-+-+-+-+-+")
+    print("\nBem vindo(a) a função de listagem!")
     if len(biblioteca)==0:#"len()" foi usado para perguntar ao Python "quantos itens tem dentro da lista?"
         print("⨻ Não há nenhum livro cadastrado! ⨻")
     else:
-        print("\n~~ Os livros disponíveis são: ~~\n")
+        print("\n~~ Os livros em catálogo são: ~~\n")
         for livro in biblioteca:#Vai passar por cada livro na biblioteca e buscar as informações solicitadas
             print(f"Título: {livro['titulo']}")
             print(f"Autor: {livro['autor']}")
@@ -67,7 +102,14 @@ def listar_livros():
 def buscar_livro():
     biblioteca= s.listar_livros()
     print("\n+-+-+-+-+-+- BUSCA DE LIVROS: -+-+-+-+-+-+")
-    termo=input("Informe o livro ou autor que deseja encontrar: ")#Guardou a resposta do usuário em "termo" para usar como a chave da pesquisa 
+    print("\nBem vindo(a) a função de busca!")
+    termo=input("Informe o livro ou autor que deseja encontrar: ")#Guardou a resposta do usuário em "termo" para usar como a chave da pesquisa
+
+    #Chamando a def de validar texto para garantir que a pessoa não deixe o espaço em branco
+    if validar_texto(termo) == False:
+        print("\n ⨻ A pesquisa não pode ficar em branco. Tente novamente. ⨻")
+        return
+
     encontrou = False #Variável para saber se achamos o livro ou não
     #Pede para o usuário informar o título de uma obra, ou um autor, para que o programa procure entre todos os livros cadastrados na biblioteca
     for livro in biblioteca:
@@ -83,14 +125,20 @@ def buscar_livro():
             print("⨻ Nenhum livro ou autor encontrado. Tente novamente. ⨻")
         #Isso só aparece caso o programa não encontre o livro/autor. A variável "encontrou" vai continuar como False e então a mensagem deste print deverá aparecer indicando que a busca fracassou.
 
-
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE REGISTRO DE EMPRÉSTIMOS:
 def registro_de_emprestimo():
     biblioteca= s.listar_livros()
     print("\n+-+-+-+-+-+- REGISTRO DE EMPRÉSTIMOS: -+-+-+-+-+-+")
+    print("\nBem vindo(a) a função de empréstimo!")
     #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
     termo=input("Digite o código ou nome do livro que deseja pegar: ")
+
+    #Chamando a def de validar texto para garantir que a pessoa não deixe o espaço em branco
+    if validar_texto(termo) == False:
+        print("\n ⨻ O código ou título não pode ser vazio. Tente novamente. ⨻")
+        return
+
     encontrou=False
     for livro in biblioteca:
         if termo.lower() in livro['titulo'].lower() or termo.lower() in livro['codigo'].lower():
@@ -105,7 +153,7 @@ def registro_de_emprestimo():
             break #O programa para
     if encontrou==False:
         print("⨻ Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente. ⨻")
-    #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
+    #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem
     s.armazenar_biblioteca(biblioteca)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -114,14 +162,21 @@ def registro_de_emprestimo():
 def registro_de_devolucao():
     biblioteca= s.listar_livros()
     print("\n+-+-+-+-+-+- REGISTRO DE DEVOLUÇÃO: -+-+-+-+-+-+")
+    print("\nBem vindo(a) a função de devolução!")
     #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
     termo=input("Digite o código ou nome do livro que deseja devolver: ")
+
+    #Chamando a def de validar texto para garantir que a pessoa não deixe o espaço em branco
+    if validar_texto(termo) == False:
+        print("\n ⨻ O código ou título não pode ser vazio. Tente novamente. ⨻")
+        return
+
     encontrou=False
     for livro in biblioteca:
         if termo.lower() in livro['titulo'].lower() or termo.lower() in livro['codigo'].lower():
             encontrou = True #Caso o livro seja encontrado entre os já cadastrados, o programa abaixo irá rodar
             if livro['status'] == "Emprestado":
-                livro['status']="Disponível"
+                livro['status']="Disponivel"
             #Caso o status atual do livro selecionado para devolução seja "Emprestado", o programa mudará para "Disponível"
                 print(f"\n O livro '{livro['titulo']}' foi devolvido às prateleiras. Obrigada(o)!")
             else:
@@ -130,7 +185,7 @@ def registro_de_devolucao():
             break #O programa para
     if encontrou==False:
         print("⨻ Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente. ⨻")
-    #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
+    #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem
     s.armazenar_biblioteca(biblioteca)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -141,6 +196,7 @@ def identificar_titulo(livro): #Função que identifica o título do livro e ent
 def ordenar_livros():
     biblioteca= s.listar_livros()
     print("\n+-+-+-+-+-+- ORDENAGEM DE LIVROS: -+-+-+-+-+-+")
+    print("\nBem vindo(a) a função de ordenagem!")
     if len(biblioteca)==0: #Verifica se há livros na biblioteca, se não houver nenhum livro o programa irá enviar a mensagem abaixo
         print("⨻ Não há livros a serem ordenados. Digite 1 e cadastre novos livros. ⨻")
     else:
@@ -155,9 +211,17 @@ def ordenar_livros():
 def remover_livro():
     biblioteca= s.listar_livros()
     print("\n+-+-+-+-+-+- REMOÇÃO DE LIVROS: -+-+-+-+-+-+")
+    print("\nBem vindo(a) a função de remoção!")
     #Usa a mesma estrutura da busca de livros para que o usuário possa procurar por código ou título
     termo=input("Digite o código ou nome do livro que deseja remover: ")
+
+    #Chamando a def de validar texto para garantir que a pessoa não deixe o espaço em branco
+    if validar_texto(termo) == False:
+        print("\n ⨻ O código ou título não pode ser vazio. Tente novamente. ⨻")
+        return
+    
     encontrou=False
+
     for livro in biblioteca:
         if termo.lower() in livro['titulo'].lower() or termo.lower() in livro['codigo'].lower():
             encontrou = True #Caso o livro seja encontrado entre os já cadastrados, o programa abaixo irá rodar
@@ -167,7 +231,9 @@ def remover_livro():
             break
     if encontrou==False:
         print("⨻ Não foi possível achar esse título em nossa prateleira. Código ou título não correspondente, tente novamente. ⨻")
-            #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem 
+            #Caso o livro não tiver sido encontrado, o programa irá enviar essa mensagem
+
+
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #MENU DE OPÇÕES:
 #Apresenta o menu principal com as opções possíveis
@@ -204,4 +270,4 @@ while True:#While para manter o menu ativo até que o usuário decida sair
         print("Deixando o sistema...")
         break
     else:
-        print("⨻ Opção inválida, tente novamente. ⨻")  
+        print("⨻ Opção inválida, tente novamente. ⨻")

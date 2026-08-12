@@ -1,6 +1,6 @@
 import csv
 def adicionar_livro(livro):
-    with open("livros.csv","a", newline="", encoding="utf-8") as arquivo: #a pq ele vai adicionando as novas informações no final do arquivo
+    with open("livros.csv","a", newline="", encoding="utf-8") as arquivo: 
         escritor=csv.DictWriter(arquivo, fieldnames=["titulo", "autor", "ano_de_publicacao","codigo","status"])
         escritor.writerow(livro)
 
