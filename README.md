@@ -1,6 +1,8 @@
 Feito por: Sophia De Oliveira Coelho - 2A
 
-+-+-+-+-+ AVALIAÇÃO 2 - LÓGICA DE PROGRAMAÇÃO: SISTEMA DE GERENCIAMENTO DE BIBLIOTECA +-+-+-+-+
+                             AVALIAÇÃO 2 - LÓGICA DE PROGRAMAÇÃO:
+                 +-+-+-+-+  SISTEMA DE GERENCIAMENTO DE BIBLIOTECA +-+-+-+-+
+
 Este programa é um sistema desenvolvido para realizar o controle e o gerenciamento de livros de uma biblioteca de forma automatizada. O programa permite cadastrar obras, listar, realizar buscas por título ou autor, registrar empréstimos e devoluções, organizar os livros em ordem alfabética, remover cadastros e salvar todas essas informações permanentemente em um arquivo no formato CSV.
 
 1. ARQUIVO PRINCIPAL (main.py):
