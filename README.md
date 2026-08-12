@@ -17,12 +17,16 @@ Esta função recebe como parâmetro o texto digitado pelo usuário e analisa se
 --> Restrição: Retorna False caso o usuário tenha apenas apertado a tecla "enter" ou digitado espaços em branco, impedindo a gravação de dados vazios no sistema.
 
 
+
+
 • Função: validar_autor(autor):
 Esta função tem como objetivo verificar se o nome do autor digitado contém apenas caracteres válidos (letras e espaços).
 
 --> Funcionalidade: Utiliza um laço de repetição para percorrer cada caractere da palavra individualmente.
 
 --> Restrição: Se o programa encontrar qualquer número no meio do nome através da verificação .isdigit(), a função retorna False e cancela a operação.
+
+
 
 
 • Função: validar_codigo(codigo):
@@ -33,12 +37,16 @@ Esta função é utilizada para garantir que o código ISBN digitado siga o padr
 --> Restrição: Retorna False se o código não possuir exatamente 13 dígitos ou se contiver letras e símbolos misturados na digitação.
 
 
+
+
 • Função: cadastrar_livro():
 Esta função solicita as informações de um novo livro e cria um registro para ser armazenado na biblioteca.
 
 --> Funcionalidade: Coleta o título, autor, ano de publicação e código ISBN, criando um dicionário com os dados e definindo o status inicial como "Disponivel".
 
 --> Restrição: Passa todas as entradas pelas funções de validação. Caso o ano seja menor que 1000, maior que o ano atual (2026), ou se os campos de texto estiverem incorretos, o cadastro é cancelado e o usuário retorna ao menu.
+
+
 
 
 • Função: listar_livros():
@@ -49,12 +57,16 @@ Esta função é responsável por exibir todos os livros que estão atualmente c
 --> Restrição: Se a lista de livros estiver vazia, o programa exibe uma mensagem informando que não existem registros cadastrados.
 
 
+
+
 • Função: buscar_livro():
 Esta função permite ao usuário pesquisar por uma obra específica armazenada no sistema.
 
 --> Funcionalidade: Compara o termo digitado pelo usuário com o título e com o autor dos livros cadastrados, exibindo os resultados encontrados.
 
 --> Restrição: Utiliza a conversão .lower() para ignorar diferenças entre letras maiúsculas e minúsculas na busca. Se o termo estiver em branco ou o livro não for encontrado, uma mensagem de erro é exibida.
+
+
 
 
 • Função: registro_de_emprestimo():
@@ -65,12 +77,16 @@ Esta função gerencia a alteração de status de um livro para a saída da bibl
 --> Restrição: Se o livro pesquisado já estiver com o status "Emprestado", o programa impede a operação e avisa que o título não está disponível no momento.
 
 
+
+
 • Função: registro_de_devolucao():
 Esta função gerencia a alteração de status de um livro no momento do retorno à biblioteca.
 
 --> Funcionalidade: Localiza a obra pelo título ou pelo código ISBN e altera o seu campo de status de "Emprestado" para "Disponivel".
 
 --> Restrição: Se a obra selecionada já estiver com o status "Disponivel", o programa avisa ao usuário que não é possível realizar a devolução.
+
+
 
 
 • Função: identificar_titulo(livro):
@@ -81,9 +97,13 @@ Esta função serve como auxiliar para o processo de ordenação do catálogo.
 --> Restrição: É utilizada como chave (key) dentro do método .sort() para evitar que palavras iniciadas com letras maiúsculas e minúsculas sejam ordenadas de forma incorreta.
 
 
+
+
 • Funções Auxiliares de Ordenação:
 > identificar_titulo(livro): Retorna o título em letras minúsculas para ordenar alfabeticamente sem erros.
+
 > identificar_autor(livro): Retorna o nome do autor em letras minúsculas para padronizar a ordenação por autor.
+
 > identificar_ano(livro): Converte o ano para um valor inteiro para permitir a ordenação cronológica correta.
 
 
@@ -95,12 +115,16 @@ Esta função organiza toda a lista de livros de acordo com o critério escolhid
 --> Restrição: Não executa a ordenação se o acervo estiver completamente vazio ou se a opção de critério digitada for inválida.
 
 
+
+
 • Função: remover_livro():
 Esta função faz a exclusão definitiva do registro de um livro no sistema.
 
 --> Funcionalidade: Procura a obra informada pelo usuário por título ou código, remove o dicionário correspondente da lista e atualiza o arquivo CSV.
 
 --> Restrição: Exige que o termo informado seja válido e avisa o usuário caso o título não seja localizado na biblioteca.
+
+
 
 
 2. MÓDULO DE PERSISTÊNCIA (salvador.py)
@@ -114,12 +138,16 @@ Esta função faz a gravação de uma nova linha no arquivo externo.
 --> Restrição: Não apaga os dados gravados anteriormente no arquivo.
 
 
+
+
 • Função: listar_livros()
 Esta função faz a leitura de todas as informações armazenadas no arquivo externo.
 
 --> Funcionalidade: Abre o arquivo CSV no modo de leitura ("r"), converte cada linha gravada de volta em um dicionário Python utilizando o csv.DictReader e retorna uma lista completa.
 
 --> Restrição: Mantém os dados sincronizados com a memória do programa toda vez que o sistema é iniciado ou consultado.
+
+
 
 
 • Função: armazenar_biblioteca(livros)
@@ -130,6 +158,8 @@ Esta função atualiza todo o conteúdo do arquivo externo de uma só vez.
 --> Restrição: É utilizada apenas quando ocorrem alterações em dados já existentes, como no empréstimo, devolução, ordenação ou remoção de livros.
 
 
+
+
 3. COMO USAR O SISTEMA:
 Para rodar o programa na sua máquina, siga os passos abaixo:
 
@@ -137,6 +167,8 @@ Para rodar o programa na sua máquina, siga os passos abaixo:
 --> Possuir o Python 3 instalado no computador.
 
 --> Manter todos os arquivos do projeto (main.py, salvador.py, definicoes.py e livros.csv) salvos dentro da mesma pasta.
+
+
 
 • Passo a passo para execução:
 + 1 - Abra a pasta onde os arquivos do projeto estão salvos.
