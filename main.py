@@ -189,22 +189,50 @@ def registro_de_devolucao():
     s.armazenar_biblioteca(biblioteca)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
-#FUNÇÃO DE ORDENAR LIVROS (por título):
-def identificar_titulo(livro): #Função que identifica o título do livro e entrega para o ".sort"
-    return livro['titulo'].lower()#.lower para que as letra maiúsculas e minúsculas não se embaralhem e o programa trave
+#FUNÇÃO DE ORDENAR LIVROS (por título, autor ou ano):
+#Funções auxiliares:
+def identificar_titulo(livro): #Função que identifica o título do livro para o ".sort"
+    return livro['titulo'].lower() #.lower para que as letras maiúsculas e minúsculas não se embaralhem na ordenação
 
+def identificar_autor(livro): #Função que identifica o autor do livro para o ".sort"
+    return livro['autor'].lower() #.lower para padronizar e ordenar o nome dos autores corretamente
+
+def identificar_ano(livro): #Função que identifica o ano de publicação para o ".sort"
+    return int(livro['ano_de_publicacao']) #Converte para número inteiro para ordenar do ano mais antigo ao mais recente
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
 def ordenar_livros():
-    biblioteca= s.listar_livros()
-    print("\n+-+-+-+-+-+- ORDENAGEM DE LIVROS: -+-+-+-+-+-+")
-    print("\nBem vindo(a) a função de ordenagem")
-    if len(biblioteca)==0: #Verifica se há livros na biblioteca, se não houver nenhum livro o programa irá enviar a mensagem abaixo
+    biblioteca = s.listar_livros()
+    print("\n+-+-+-+-+-+- ORDENAÇÃO DE LIVROS: -+-+-+-+-+-+")
+    print("\nBem vindo(a) a função de ordenação!")
+    
+    if len(biblioteca) == 0: #Verifica se há livros na biblioteca, se não houver nenhum livro o programa irá enviar a mensagem abaixo
         print("⨻ Não há livros a serem ordenados. Digite 1 e cadastre novos livros. ⨻")
+        return
+
+    #Exibe um menu secundário para o usuário escolher como deseja ordenar os livros
+    print("\nComo deseja ordenar os livros da biblioteca?")
+    print("-- 1 para: Ordenar por Título (A-Z)")
+    print("-- 2 para: Ordenar por Autor (A-Z)")
+    print("-- 3 para: Ordenar por Ano de Publicação (Mais antigo ao mais recente)")
+    
+    criterio = input("\nDigite sua opção de ordenação: ")
+
+    if criterio == "1":
+        biblioteca.sort(key=identificar_titulo) #Aplica a ordenação por título usando a chave de identificação
+        print("\n A biblioteca foi organizada por títulos em ordem alfabética. Digite 4 no menu principal e veja a nova lista.")
+    elif criterio == "2":
+        biblioteca.sort(key=identificar_autor) #Aplica a ordenação por autor usando a chave de identificação
+        print("\n A biblioteca foi organizada por autores em ordem alfabética. Digite 4 no menu principal e veja a nova lista.")
+    elif criterio == "3":
+        biblioteca.sort(key=identificar_ano) #Aplica a ordenação do ano menor/antigo para o maior/recente
+        print("\n A biblioteca foi organizada por ano de publicação. Digite 4 no menu principal e veja a nova lista.")
     else:
-        biblioteca.sort(key=identificar_titulo)
-        #O .sort vai servir para ordenar os títulos em ordem alfabética. Com ajuda da def acima
-        #ele vai "pegar" os livros, identificar o título e por em ordem alfabética.
-        print("\nA biblioteca foi organizada por títulos em ordem alfabética. Digite 4 e verifique a nova ordem.")
-    s.armazenar_biblioteca(biblioteca)
+        print("\n ⨻ Opção de ordenação inválida. Retornando ao menu principal... ⨻")
+        return
+
+    s.armazenar_biblioteca(biblioteca) #Salva a nova ordem dos livros diretamente no arquivo CSV
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 #FUNÇÃO DE REMOVER LIVROS:

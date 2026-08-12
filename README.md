@@ -51,10 +51,15 @@ Esta função serve como auxiliar para o processo de ordenação do catálogo.
 --> Funcionalidade: Acessa a chave do título dentro do dicionário do livro e converte os caracteres para letras minúsculas.
 --> Restrição: É utilizada como chave (key) dentro do método .sort() para evitar que palavras iniciadas com letras maiúsculas e minúsculas sejam ordenadas de forma incorreta.
 
+• Funções Auxiliares de Ordenação:
+identificar_titulo(livro): Retorna o título em letras minúsculas para ordenar alfabeticamente sem erros.
+identificar_autor(livro): Retorna o nome do autor em letras minúsculas para padronizar a ordenação por autor.
+identificar_ano(livro): Converte o ano para um valor inteiro para permitir a ordenação cronológica correta.
+
 • Função: ordenar_livros():
-Esta função organiza toda a lista de livros em ordem alfabética com base no título das obras.
---> Funcionalidade: Executa a ordenação da lista principal utilizando a função identificar_titulo e salva a nova sequência no arquivo CSV.
---> Restrição: Não executa a ordenação se o acervo estiver completamente vazio.
+Esta função organiza toda a lista de livros de acordo com o critério escolhido pelo usuário.
+--> Funcionalidade: Apresenta um menu secundário onde o usuário pode escolher ordenar por Título (A-Z), Autor (A-Z) ou Ano de Publicação (do mais antigo ao mais recente). Aplica o método .sort() com a chave correspondente e salva a nova sequência no arquivo CSV.
+--> Restrição: Não executa a ordenação se o acervo estiver completamente vazio ou se a opção de critério digitada for inválida.
 
 • Função: remover_livro():
 Esta função faz a exclusão definitiva do registro de um livro no sistema.
